@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Историческая карта — полные данные · версия 2.0</title>
+<link rel="stylesheet" href="leaflet/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <div id="karta-blok">
+    <div id="karta"></div>
+
+    <div class="shapka">
+      <h1>Историческая карта</h1>
+      <div class="shapka-pod">3400 г. до н. э. — 2024 г. · полные данные Cliopatria · версия 2.0</div>
+    </div>
+
+    <div class="legenda">
+      <div><span class="kv kv-nasha"></span> наша страна</div>
+      <div><span class="kv kv-rus"></span> другие русские княжества</div>
+    </div>
+
+    <div id="zagruzka" hidden>загружаю карту…</div>
+
+    <div id="lenta">
+      <button id="play" title="Проиграть (пробел)">▶</button>
+      <button id="minus" title="На год раньше (стрелка влево)">‹</button>
+      <div class="polzunok-blok">
+        <input type="range" id="polzunok" min="-3400" max="2024" value="1700" aria-label="Год">
+        <div id="metki"></div>
+      </div>
+      <button id="plus" title="На год позже (стрелка вправо)">›</button>
+      <label class="vvod">год <input type="number" id="vvod-goda" min="-3400" max="2024" value="1700"></label>
+    </div>
+  </div>
+
+  <aside id="stolbec">
+    <div class="god-shapka">
+      <div class="god-bolshoy"><span id="god">1700</span><small id="god-podpis">год</small></div>
+      <div class="karta-god">границы на карте — на <b id="karta-god"></b></div>
+    </div>
+
+    <section id="klik-info" hidden></section>
+
+    <section id="nasha-blok"></section>
+
+    <section>
+      <h2>События</h2>
+      <div id="sobytiya"></div>
+    </section>
+
+    <section>
+      <h2>Кто правил в других странах</h2>
+      <div id="praviteli"></div>
+    </section>
+
+    <button id="o-proekte" class="knopka-tekst">О проекте: названия, ошибки, источники</button>
+  </aside>
+</div>
+
+<div id="okno" hidden>
+  <div class="okno-vnutri">
+    <button id="zakryt" class="zakryt" title="Закрыть">×</button>
+
+    <h2>Как называлась наша страна</h2>
+    <table class="tablica">
+      <tr><th>Годы</th><th>Название</th><th>Столица</th></tr>
+      <tr><td>862–1132</td><td>Русь (Древнерусское государство)</td><td>Новгород, с 882 г. Киев</td></tr>
+      <tr><td>1132 – XV в.</td><td>много отдельных княжеств (Владимиро-Суздальское, Новгородское, Московское и др.)</td><td>у каждого своя</td></tr>
+      <tr><td>XIV–XV вв.</td><td>Великое княжество Московское</td><td>Москва</td></tr>
+      <tr><td>1547–1721</td><td>Русское царство</td><td>Москва</td></tr>
+      <tr><td>1721–1917</td><td>Российская империя</td><td>Санкт-Петербург</td></tr>
+      <tr><td>1917</td><td>Российская республика</td><td>Петроград</td></tr>
+      <tr><td>1917–1922</td><td>РСФСР (Советская Россия)</td><td>Москва (с 1918 г.)</td></tr>
+      <tr><td>1922–1991</td><td>СССР</td><td>Москва</td></tr>
+      <tr><td>с 1991</td><td>Российская Федерация</td><td>Москва</td></tr>
+    </table>
+
+    <h2>Чем эта версия отличается</h2>
+    <p>Это вторая версия карты. Границы здесь взяты из Cliopatria <b>целиком и без изменений</b>:</p>
+    <ul>
+      <li>все годы, которые есть в данных: с 3400 года до н. э. по 2024 год;</li>
+      <li>границы не упрощены — все точки как в исходном файле;</li>
+      <li>названия государств не переведены — они написаны так, как в Cliopatria, по-английски;</li>
+      <li>ошибки в данных не исправлены (в первой версии я их исправлял).</li>
+    </ul>
+    <p>Файл Cliopatria весит 146 МБ, поэтому я разложил записи по годам на 17 файлов в папке <code>cliopatria</code>,
+      чтобы сайт загружал только нужные. Сами записи не менялись. Рядом с каждой записью я только добавил точку,
+      куда ставить подпись на карте.</p>
+
+    <h2>Как пользоваться</h2>
+    <ul>
+      <li>Двигай ползунок внизу — меняется год, карта и список правителей справа. Годы до нашей эры — слева.</li>
+      <li>Кнопка ▶ сама листает годы (до нашей эры — по 5 лет). Стрелки на клавиатуре — на год, с Shift — на 10 лет.</li>
+      <li>Можно открыть нужный год сразу: <code>index.html#1812</code> или <code>index.html#-500</code> (500 г. до н. э.).</li>
+      <li>Нажми на страну — она выделится, справа появится её название и правитель. Если листать годы, выбор остаётся.</li>
+      <li>Правители и события есть только с 1 года н. э. (их я собирал сам).</li>
+    </ul>
+
+    <h2>Какие ошибки есть в этих данных</h2>
+    <p>Их я нашёл, когда проверял данные, но в этой версии специально оставил как есть:</p>
+    <ul>
+      <li>Крым с 2014 года записан сразу за Россией и за Украиной, и сверху рисуется Украина.</li>
+      <li>У Франции после 1962 года остался кусок Алжира, у Великобритании — Оман, ОАЭ и Катар, у США — Ирак.</li>
+      <li>В 2006–2013 годах Ирака нет, его земля записана за США.</li>
+      <li>Португалия называется «Estado Novo» до 2024 года (правильно — до 1974).</li>
+      <li>В 1250–1293 годах все русские земли закрашены как Монгольская империя.</li>
+      <li>Гренландия подписана как Дания (она правда входит в Королевство Дания, но выглядит странно).</li>
+    </ul>
+
+    <h2>Источники</h2>
+    <ul>
+      <li>Границы государств: проект Cliopatria (Seshat Global History Databank),
+        <a href="https://github.com/Seshat-Global-History-Databank/cliopatria">github.com/Seshat-Global-History-Databank/cliopatria</a>.</li>
+      <li>Суша, реки и озёра: Natural Earth, <a href="https://www.naturalearthdata.com">naturalearthdata.com</a> (общественное достояние).</li>
+      <li>Карта сделана на библиотеке Leaflet, <a href="https://leafletjs.com">leafletjs.com</a>.</li>
+      <li>Правители, даты и события: учебники истории России и всеобщей истории, Википедия.</li>
+    </ul>
+
+    <p class="podpis">Проект по истории. Выполнил ученик 8 класса ____________________, 2026 г.</p>
+  </div>
+</div>
+
+<script src="leaflet/leaflet.js"></script>
+<script>var granicy = {};</script>
+<script src="cliopatria/spisok.js"></script>
+<script src="osnova.js"></script>
+<script src="perevod.js"></script>
+<script src="dannye.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
